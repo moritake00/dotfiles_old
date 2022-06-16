@@ -1,0 +1,113 @@
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+on_cmd = 'Denite'
+on_i = 1
+hook_source = '''
+  " 移動
+  call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
+  call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#map('insert', 'jj', '<denite:enter_mode:normal>')
+  call denite#custom#map('normal', '<C-u>', '<denite:move_up_path>', 'noremap')
+  call denite#custom#map('insert', '<C-u>', '<denite:move_up_path>', 'noremap')
+  " ウィンドウを分割して開く
+  call denite#custom#map('normal', '<C-c>', '<denite:do_action:split>', 'noremap')
+  call denite#custom#map('insert', '<C-c>', '<denite:do_action:split>', 'noremap')
+  call denite#custom#map('normal', '<C-v>', '<denite:do_action:vsplit>', 'noremap')
+  call denite#custom#map('insert', '<C-v>', '<denite:do_action:vsplit>', 'noremap')
+'''
+# " 
+# call denite#custom#source('file_rec', 'matcher', ['matcher_cpsm'])
+# call denite#custom#source('file', 'matcher', ['matcher_cpsm'])
+#hook_add = '''
+#  nmap <silent> <Leader> f :Denite file_rec
+#'''
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1
+  call deoplete#manual_complete()
+  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+        \ neosnippet#expandable_or_jumpable() ?
+        \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+  call deoplete#enable()
+'''
+on_i = 1
+
+[[plugins]]
+repo = 'Shougo/neosnippet'
+hook_source = '''
+  imap <C-j> <Plug>(neosnippet_expand_or_jump)
+  smap <C-j> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-j> <Plug>(neosnippet_expand_target)
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+  let g:neosnippet#snippets_directory = '~/.config/nvim/snippets'
+'''
+on_i  = 1
+depends = ['neosnippet-snippets']
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+on_i = 1
+on_ft = 'python'
+
+[[plugins]]
+repo = 'ncm2/float-preview.nvim'
+hook_add = '''
+  set completeopt=menuone
+  let g:float_preview#docked = 0
+'''
+
+[[plugins]] # Plugin to easily access Most Recently Used (MRU) files
+repo = 'Shougo/neomru.vim'
+on_source = 'denite.nvim'
+on_path = '.*'
+
+[[plugins]] # Yank
+repo = 'Shougo/neoyank.vim'
+on_source = 'denite.nvim'
+on_event = 'TextYankPost'
+
+################
+### Markdown ###
+################
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
+on_ft = ['markdown','mkd']
+hook_add = '''
+  augroup PrevimSettings
+    autocmd!
+    autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+  augroup END
+  " リンク表記を勝手に折りたたまないようにする
+  let g:vim_markdown_conceal = 0
+'''
+
+# quote内のプログラムをシンタックスハイライトする
+[[plugins]]
+repo = 'joker1007/vim-markdown-quote-syntax'
+on_ft = ['markdown','mkd']
+
+# 編集中のMarkdownファイルのプレビューを作成する
+[[plugins]]
+repo = 'kannokanno/previm'
+on_ft = ['markdown','mkd']
+
+# プレビューをブラウザで開いてくれる
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+on_ft = ['markdown','mkd']
+
+# pep8インデントhttps://wonderwall.hatenablog.com/entry/2017/02/02/003537
+[[plugins]]
+repo = 'Vimjas/vim-python-pep8-indent'
+on_ft = 'python'
+
+
+# [[plugins]]
+# repo = 'scrooloose/nerdcommenter'
+# hook_add = '''
+#   let NERDSpaceDelims = 1
+# '''
